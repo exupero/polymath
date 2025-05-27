@@ -7,8 +7,10 @@
                      :xmlns:xhtml "http://www.w3.org/1999/xhtml")]
         children))
 
-(defn view-box [x y w h]
-  (str x " " y " " w " " h))
+(defn view-box
+  ([w h] (view-box 0 0 w h))
+  ([x y w h]
+   (str x " " y " " w " " h)))
 
 (defn translate
   ([[x y]] (translate x y))
