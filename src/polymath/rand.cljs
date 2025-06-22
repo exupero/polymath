@@ -1,5 +1,5 @@
 (ns polymath.rand
-  (:refer-clojure :exclude [nth shuffle])
+  (:refer-clojure :exclude [nth shuffle take])
   (:require ["seedrandom" :as seedrandom]
             [goog.array :as garray]))
 
@@ -18,3 +18,9 @@
   (let [a (to-array coll)]
     (garray/shuffle a rng)
     (vec a)))
+
+(defn take
+  ([rng coll] (take rng 0 coll))
+  ([rng min coll]
+   (let [n (int-between rng min (count coll))]
+     (clojure.core/take n coll))))

@@ -37,7 +37,10 @@
       (interpose "L"))
     str "M" pts))
 
-(defn closed-path [pts]
+(defn path-multi [lines]
+  (str/join (map path lines)))
+
+(defn path-closed [pts]
   (str (path pts) "Z"))
 
 (defn points [pts]
