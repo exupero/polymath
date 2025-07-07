@@ -24,3 +24,10 @@
   ([rng min coll]
    (let [n (int-between rng min (count coll))]
      (clojure.core/take n coll))))
+
+(defn split
+  ([rng coll] (split rng 0 (count coll) coll))
+  ([rng min coll] (split rng min (count coll) coll))
+  ([rng min max coll]
+   (let [n (int-between rng min max)]
+     (split-at n coll))))

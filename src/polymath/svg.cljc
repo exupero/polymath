@@ -43,13 +43,21 @@
 (defn path-closed [pts]
   (str (path pts) "Z"))
 
-(defn points [pts]
-  (transduce
-    (comp
-      (map (fn [[x y]]
-             (str x \, y)))
-      (interpose " "))
-    str pts))
+(defn points
+  ([pts]
+   (transduce
+     (comp
+       (map (fn [[px py]]
+              (str px \, py)))
+       (interpose " "))
+     str pts))
+  ([[x y] pts]
+   (transduce
+     (comp
+       (map (fn [[px py]]
+              (str (x px) \, (y py))))
+       (interpose " "))
+     str pts)))
 
 (def extent (juxt (partial apply min) (partial apply max)))
 
