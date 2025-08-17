@@ -10,4 +10,4 @@
 (defn round
   ([x] (round x 1))
   ([x p]
-   (* p (Math/round (/ x p)))))
+   (* p (Math/round (float (/ x p))))))
