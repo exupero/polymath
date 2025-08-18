@@ -11,3 +11,10 @@
   ([x] (round x 1))
   ([x p]
    (* p (Math/round (float (/ x p))))))
+
+(defn average
+  ([xs]
+   (/ (reduce + xs)
+      (count xs)))
+  ([x1 x2 & more]
+   (average (concat [x1 x2] more))))
