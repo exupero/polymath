@@ -59,6 +59,9 @@
        (interpose " "))
      str pts)))
 
+(defn url [s]
+  (str "url(#" s ")"))
+
 (def extent (juxt (partial apply min) (partial apply max)))
 
 (defn bounds [xys]
