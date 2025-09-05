@@ -5,7 +5,14 @@
 (defn linear [[x1 x2] [y1 y2]]
   (let [m (/ (- y1 y2) (- x1 x2))
         b (- y1 (* m x1))]
-    #(+ b (* m %))))
+    (with-meta
+      #(+ b (* m %))
+      {:inverse #(/ (- % b) m)})))
+
+(defn inverse [f & args]
+  (if-let [f' (-> f meta :inverse)]
+    (apply f' args)
+    (throw (ex-info "Function does not have an inverse" {:function f}))))
 
 (defn round
   ([x] (round x 1))
