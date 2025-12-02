@@ -1,8 +1,8 @@
 (ns polymath.hash-map)
 
-(defn prefix-keys [m prefix]
-  (let [prefix (name prefix)]
+(defn namespace-keys [m nmsp]
+  (let [nmsp (name nmsp)]
     (into {}
           (map (fn [[k v]]
-                 [(keyword prefix (name k)) v]))
+                 [(keyword nmsp (name k)) v]))
           m)))
