@@ -60,7 +60,7 @@
      str pts)))
 
 (defn url [s]
-  (str "url(#" s ")"))
+  (str "url(#" (name s) ")"))
 
 (def extent (juxt (partial apply min) (partial apply max)))
 
