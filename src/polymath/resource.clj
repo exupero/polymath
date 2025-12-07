@@ -9,12 +9,18 @@
     `(quote ~(clojure.edn/read-string (slurp resource)))
     (throw (ex-info (str "Resource not found: " path) {}))))
 
-(defmacro edn-dir [path]
+(defmacro edn-dir [path & {:keys [nils?] :or {nils? true}}]
   (if-let [dir (io/resource path)]
-    (let [files (filter #(and (.isFile %)
-                              (-> % .getName (str/ends-with? ".edn")))
-                        (file-seq (io/file dir)))]
-      `(quote ~(map (comp clojure.edn/read-string slurp) files)))
+    (let [files (sequence
+                  (comp
+                    (filter #(and (.isFile %)
+                                  (-> % .getName (str/ends-with? ".edn"))))
+                    (map (comp clojure.edn/read-string slurp))
+                    (if nils?
+                      (comp)
+                      (remove #(some nil? (tree-seq coll? seq %)))))
+                  (file-seq (io/file dir)))]
+      `(quote ~files))
     (throw (ex-info (str "Resource directory not found: " path) {}))))
 
 (defmacro yaml [path]
@@ -22,10 +28,16 @@
     `(quote ~(yaml/parse-string (slurp resource)))
     (throw (ex-info (str "Resource not found: " path) {}))))
 
-(defmacro yaml-dir [path]
+(defmacro yaml-dir [path & {:keys [nils?] :or {nils? true}}]
   (if-let [dir (io/resource path)]
-    (let [files (filter #(and (.isFile %)
-                              (-> % .getName (str/ends-with? ".yaml")))
-                        (file-seq (io/file dir)))]
-      `(quote ~(map (comp yaml/parse-string slurp) files)))
+    (let [files (sequence
+                  (comp
+                    (filter #(and (.isFile %)
+                                  (-> % .getName (str/ends-with? ".yaml"))))
+                    (map (comp yaml/parse-string slurp))
+                    (if nils?
+                      (comp)
+                      (remove #(some nil? (tree-seq coll? seq %)))))
+                  (file-seq (io/file dir)))]
+      `(quote ~files))
     (throw (ex-info (str "Resource directory not found: " path) {}))))
