@@ -29,13 +29,15 @@
 (defn transformations [ts]
   (str/join (reverse ts)))
 
-(defn path [pts]
-  (transduce
-    (comp
-      (map (fn [[x y]]
-             (str x \, y)))
-      (interpose "L"))
-    str "M" pts))
+(defn path
+  ([pts] (path [identity identity] pts))
+  ([[x y] pts]
+   (transduce
+     (comp
+       (map (fn [[px py]]
+              (str (x px) \, (y py))))
+       (interpose "L"))
+     str "M" pts)))
 
 (defn path-multi [lines]
   (str/join (map path lines)))
