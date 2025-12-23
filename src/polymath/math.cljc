@@ -25,3 +25,9 @@
       (count xs)))
   ([x1 x2 & more]
    (average (concat [x1 x2] more))))
+
+(defn to-radians [degrees]
+  (* degrees (/ Math/PI 180)))
+
+(defn to-degrees [radians]
+  (* radians (/ 180 Math/PI)))
