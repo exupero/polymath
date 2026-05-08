@@ -1,2 +1,3 @@
 {:paths ["src"]
- :deps {clj-commons/clj-yaml {:mvn/version "1.0.29"}}}
+ :deps {clj-commons/clj-yaml {:mvn/version "1.0.29"}
+        markdown-clj/markdown-clj {:mvn/version "1.12.8"}}}
