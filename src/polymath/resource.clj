@@ -4,6 +4,11 @@
             [clojure.string :as str]
             [clj-yaml.core :as yaml]))
 
+(defmacro dir [path]
+  (if-let [dir (io/resource path)]
+    `(quote ~(map #(.getName %) (.listFiles (io/file dir))))
+    (throw (ex-info (str "Resource directory not found: " path) {}))))
+
 (defmacro edn [path]
   (if-let [resource (io/resource path)]
     `(quote ~(clojure.edn/read-string (slurp resource)))
