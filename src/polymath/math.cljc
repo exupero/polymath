@@ -9,10 +9,13 @@
       #(+ b (* m %))
       {:inverse #(/ (- % b) m)})))
 
-(defn inverse [f & args]
+(defn inverse [f]
   (if-let [f' (-> f meta :inverse)]
-    (apply f' args)
+    f'
     (throw (ex-info "Function does not have an inverse" {:function f}))))
+
+(defn invert [f & args]
+  (apply (inverse f) args))
 
 (defn round
   ([x] (round x 1))
