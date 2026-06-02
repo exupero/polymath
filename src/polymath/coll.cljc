@@ -9,3 +9,6 @@
              (assoc m k v)
              m))
          m)))
+
+(defn project [fns xs]
+  (map (fn [f x] (f x)) fns xs))
