@@ -1,9 +1,10 @@
-(ns polymath.dom)
+(ns polymath.dom
+  (:require [clojure.string :as str]))
 
 (defn ancestor [nm node]
-  (let [nm (name nm)]
+  (let [nm (str/lower-case (name nm))]
     (loop [node node]
       (cond
         (nil? node) nil
-        (= nm (.-nodeName node)) node
+        (= nm (str/lower-case (.-nodeName node))) node
         :else (recur (.-parentNode node))))))
