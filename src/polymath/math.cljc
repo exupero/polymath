@@ -22,6 +22,16 @@
   ([x p]
    (* p (Math/round (float (/ x p))))))
 
+(defn floor
+  ([x] (floor x 1))
+  ([x p]
+   (* p (Math/floor (float (/ x p))))))
+
+(defn ceil
+  ([x] (ceil x 1))
+  ([x p]
+   (* p (Math/ceil (float (/ x p))))))
+
 (defn average
   ([xs]
    (/ (reduce + xs)
