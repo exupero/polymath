@@ -2,9 +2,13 @@
   (:require [clojure.string :as str]))
 
 (defn ancestor [nm node]
-  (let [nm (str/lower-case (name nm))]
+  (let [nm (name nm)]
     (loop [node node]
       (cond
-        (nil? node) nil
-        (= nm (str/lower-case (.-nodeName node))) node
-        :else (recur (.-parentNode node))))))
+        (nil? node)
+        , nil
+        (or (= (str/lower-case nm) (str/lower-case (.-nodeName node)))
+            (.matches node nm))
+        , node
+        :else
+        , (recur (.-parentNode node))))))
