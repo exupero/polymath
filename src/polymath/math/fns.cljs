@@ -1,4 +1,4 @@
-(ns polymath.functions)
+(ns polymath.math.fns)
 
 (defn linear [[x1 x2] [y1 y2]]
   (let [m (/ (- y1 y2) (- x1 x2))
