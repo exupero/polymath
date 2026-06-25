@@ -1,6 +1,6 @@
 (ns polymath.coll)
 
-(defn assoc-if [m & kvs]
+(defn assoc-some [m & kvs]
   (->> kvs
        (partition 2)
        (reduce
@@ -10,5 +10,10 @@
              m))
          m)))
 
-(defn project [fns xs]
-  (map (fn [f x] (f x)) fns xs))
+(defn index-by [f coll]
+  (into {} (map (juxt f identity)) coll))
+
+(defn project [fns & args]
+  (apply map (fn [f & more]
+               (apply f more))
+         fns args))
