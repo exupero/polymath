@@ -88,8 +88,26 @@
   (str "hsl(" (float h) "," (float s) "%," (float l) "%)"))
 
 #?(:cljs
-    (defn blob [svg-content]
-      (js/Blob. #js [svg-content] #js {:type "image/svg+xml"})))
+    (defn blob [svg]
+      (js/Blob. #js [(.serializeToString (js/XMLSerializer.) svg)]
+                #js {:type "image/svg+xml"})))
+
+#?(:cljs
+    (defn embed-styles [svg]
+      (let [clone (.cloneNode svg true)
+            rules (for [sheet js/document.styleSheets
+                        rule (try
+                               (.-cssRules sheet)
+                               (catch :default _
+                                 ; throws if stylesheet is cross-origin
+                                 (js/console.warn "Ignoring cross-origin stylesheet" (.-href sheet))))
+                        :when (and (instance? js/CSSStyleRule rule)
+                                   (.querySelector svg (.-selectorText rule)))]
+                    (.-cssText rule))
+            style (js/document.createElementNS svg-ns "style")]
+        (set! (.-textContent style) (str/join "\n" rules))
+        (.prepend clone style)
+        clone)))
 
 #?(:cljs
     (defn canvas-of-size [width height]
