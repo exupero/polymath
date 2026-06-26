@@ -1,10 +1,11 @@
 (ns polymath.svg
   (:require [clojure.string :as str]))
 
+(def svg-ns "http://www.w3.org/2000/svg")
+(def xhtml-ns "http://www.w3.org/1999/xhtml")
+
 (defn svg [attrs & children]
-  (into [:svg (assoc attrs
-                     :xmlns "http://www.w3.org/2000/svg"
-                     :xmlns:xhtml "http://www.w3.org/1999/xhtml")]
+  (into [:svg (assoc attrs :xmlns svg-ns :xmlns:xhtml xhtml-ns)]
         children))
 
 (defn view-box
