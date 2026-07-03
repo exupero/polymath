@@ -10,6 +10,12 @@
              m))
          m)))
 
+(defn update-some [m k f & args]
+  (let [v (m k)]
+    (if (some? v)
+      (assoc m k (apply f v args))
+      m)))
+
 (defn index-by [f coll]
   (into {} (map (juxt f identity)) coll))
 
