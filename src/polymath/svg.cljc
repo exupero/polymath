@@ -121,7 +121,7 @@
 #?(:cljs
     (defn canvas-blob [svg-blob {:keys [width height scale]}]
       (let [scale (* scale (or js/window.devicePixelRatio 1))
-            canvas (canvas-of-size (* width scale) (* height scale))
+            canvas (canvas-of-size (long (* width scale)) (long (* height scale)))
             context (doto (.getContext canvas "2d")
                       (.setTransform scale 0 0 scale 0 0))
             img (js/Image.)
